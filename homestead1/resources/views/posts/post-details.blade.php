@@ -19,6 +19,9 @@
     @foreach($post->tags as $tags)
         <small class="mb-0">#{{ $tags->mainbody}}</small>
     @endforeach
+    @if($post->image != 'empty.png')
+                <img src="{{ URL::to('images') }}/{{$post->image}}" alt="Post Image" width="700"><br><br>
+    @endif
 </ul>
 
     <div class="card mt-4">

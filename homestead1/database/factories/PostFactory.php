@@ -26,6 +26,7 @@ class PostFactory extends Factory
             'title' => $this->faker->word,
             'mainbody' => $this->faker->word,
             'user_id' => \App\Models\User::inRandomOrder()->first()->id,
+            'image'=> 'empty.jpg',
 
         ];
     }

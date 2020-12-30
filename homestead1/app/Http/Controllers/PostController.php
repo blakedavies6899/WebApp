@@ -31,11 +31,30 @@ class PostController extends Controller
 
     public function createPosts(Request $request)
     {
+        $request->validate([
+            'title'=> 'required',
+            'mainbody'=> 'required',
+            'image'=> 'mimes:jpeg,jpg,png'
+        ]);
+
+
+        if($request->image !=null)
+        {
+            $image = $request->file('image');
+            $image_name = time().'.'.$image->extension();
+            $request->image->move(public_path('images'),$image_name);
+        }
+        else
+        {
+            $image_name = 'empty.jpg';
+        }
+
         $user = User::where('id', '=', Auth::guard()->id())->first();
         $posts = new Post;
         $posts->title=$request->title;
         $posts->mainbody=$request->mainbody;
         $posts->user_id=$user->id;
+        $posts->image = $image_name;
         $posts->save();
         $tag= $request->tags;
         $posts->tags()->attach($tag);

@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __("Welcome to Blake's Blogs!") }}
                     
                 </div>
                 <button type="button" onclick="location.href='http://homestead1.test/posts'">Go to Posts</button>

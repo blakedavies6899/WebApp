@@ -3,7 +3,7 @@
 @section('title', 'posts')
 
 @section('content')
-<form action="{{route('postCreate')}}" method="POST"  >
+<form action="{{route('postCreate')}}" method="POST" enctype="multipart/form-data" >
 
     @csrf
 
@@ -13,10 +13,15 @@
 
     <label for="Tags">Choose a tag:</label>
     <select name="tags[]"  multiple>
-    @foreach($tags as $tag)
-    <option value='{{$tag->id}}'>{{$tag->mainbody}} </option>
-    @endforeach
-  </select>
+        @foreach($tags as $tag)
+        <option value='{{$tag->id}}'>{{$tag->mainbody}} </option>
+        @endforeach
+    </select>
+
+    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+    @error('image')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
   
   <br><br>
 
