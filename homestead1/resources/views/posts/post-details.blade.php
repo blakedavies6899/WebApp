@@ -15,6 +15,12 @@
     <button onclick="document.location='{{route('postUpdate',['id'=>$post->id])}}'">Edit Post</button>
     @endif
 </ul>
+<ul>
+    @foreach($post->tags as $tags)
+        <small class="mb-0">#{{ $tags->mainbody}}</small>
+    @endforeach
+</ul>
+
     <div class="card mt-4">
             <h5 class="card-header">Comments <span class="comment-count float-right badge badge-info">{{ count($post->comments) }}</span></h5>
             <div class="card-body">

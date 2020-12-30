@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -24,7 +25,8 @@ class PostController extends Controller
 
     public function viewCreate()
     {
-        return view ('posts.create-posts');
+        $tags = Tag::all();
+        return view ('posts.create-posts',['tags'=>$tags]);
     }
 
     public function createPosts(Request $request)
@@ -35,6 +37,8 @@ class PostController extends Controller
         $posts->mainbody=$request->mainbody;
         $posts->user_id=$user->id;
         $posts->save();
+        $tag= $request->tags;
+        $posts->tags()->attach($tag);
         return redirect('posts');
     }
     /**
