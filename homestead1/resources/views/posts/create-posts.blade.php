@@ -6,6 +6,7 @@
 <form action="{{route('postCreate')}}" method="POST" enctype="multipart/form-data" >
 
     @csrf
+    <button type="button" onclick="location.href='posts'">Back to Posts</button>
 
     <input id="title" type="text" name="title" class="form-control @error('title') is-invalid @enderror" max="30" placeholder="Add Title Here" value="{{ old('title') }}" required autofocus>
 

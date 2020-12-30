@@ -122,9 +122,29 @@ class PostController extends Controller
 
     public function updatePost(Request $request)
     {
+
+        $request->validate([
+            'title'=> 'required',
+            'mainbody'=> 'required',
+            'image'=> 'mimes:jpeg,jpg,png'
+        ]);
+
+
+        if($request->image !=null)
+        {
+            $image = $request->file('image');
+            $image_name = time().'.'.$image->extension();
+            $request->image->move(public_path('images'),$image_name);
+        }
+        else
+        {
+            $image_name = 'empty.jpg';
+        }
+
         $post=Post::find($request->id);
         $post->title=$request->title;
         $post->mainbody=$request->mainbody;
+        $post->image = $image_name;
         $post->save();
         return redirect('posts');
     }
