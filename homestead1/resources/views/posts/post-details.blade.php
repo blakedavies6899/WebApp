@@ -99,7 +99,7 @@
                                                 <h2>Edit Comment</h2><br>
                                                 <textarea class="form-control comment" id="pre_edit_content" placeholder="Enter Comment"></textarea><br>
                                                 <input type="hidden" id="comment_id" class="form-control comment_id">
-                                                <button data-post="{{ $post->id }}"  class="btn btn-primary">Submit</button><br>
+                                                <button data-post="{{ $post->id }}"  class="btn btn-primary editComment">Submit</button><br>
                                                 <button type="button" class="btn cancel btn-danger" onclick="closeForm()">Cancel</button>
                                             </div>
                                         </div>
