@@ -4,11 +4,16 @@
 
 @section('title', 'posts')
 
+
 @section('content')
 
 <style>
     * {
       box-sizing: border-box;
+    }
+
+    .pad {
+      padding: 10px
     }
     .editPopup {
       position: relative;
@@ -20,7 +25,7 @@
       position: fixed;
       left: 45%;
       top: 5%;
-      transform: translate(-50%, 5%);
+      transform: translate(300%, 200%);
       border: 3px solid #999999;
       z-index: 9;
     }
@@ -45,14 +50,17 @@
       opacity: 1;
     }
 </style>
-
-<button onclick="location.href='/posts'">Back To Posts</button>
+<div class = "pad">
+    <button class = "btn btn-primary" onclick="location.href='/posts'">Back To Posts</button>
+</div>
 <ul>
     <li>Title: {{$post->title}}</li>
     <li>Main Body: {{$post->mainbody}}</li>
     <li>User: {{$post->user->name}}</li>
     @if($user->id == $post->user_id)
-    <button onclick="document.location='{{route('postUpdate',['id'=>$post->id])}}'">Edit Post</button>
+        <div class = "pad">
+            <button class= "btn btn-primary" onclick="document.location='{{route('postUpdate',['id'=>$post->id])}}'">Edit Post</button>
+        </div>
     @endif
 </ul>
 <ul>
@@ -71,7 +79,7 @@
                 <div class="add-comment mb-3">
                     @csrf
                     <textarea class="form-control comment" placeholder="Enter Comment"></textarea>
-                    <button data-post="{{ $post->id }}" class="btn btn-dark btn-sm mt-2 save-comment">Submit</button>
+                    <button data-post="{{ $post->id }}" class="btn btn-primary">Submit</button>
                 </div>
                 <hr/>
                 <div class="comments"> 
@@ -83,7 +91,7 @@
                             <small class="mb-0">{{ $comment->user->name}}</small>
 
                             @if($user->id == $comment->user_id)
-                                <button type="button" class="openButton btn btn-primary float-right btn-sm" onclick="openForm({{$comment}})">Edit Comment</button>
+                                <button type="button" class="btn btn-primary" onclick="openForm({{$comment}})">Edit Comment</button>
                             @endif
                             <div class="editPopup">
                                         <div class="formPopup" id="popupForm">
@@ -91,7 +99,7 @@
                                                 <h2>Edit Comment</h2><br>
                                                 <textarea class="form-control comment" id="pre_edit_content" placeholder="Enter Comment"></textarea><br>
                                                 <input type="hidden" id="comment_id" class="form-control comment_id">
-                                                <button data-post="{{ $post->id }}" class="btn btn-success editComment">Submit</button><br>
+                                                <button data-post="{{ $post->id }}"  class="btn btn-primary">Submit</button><br>
                                                 <button type="button" class="btn cancel btn-danger" onclick="closeForm()">Cancel</button>
                                             </div>
                                         </div>

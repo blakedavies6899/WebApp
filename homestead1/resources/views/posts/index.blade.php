@@ -2,6 +2,12 @@
 
 @section('title', 'posts')
 
+<style>
+.pad {
+      padding: 10px
+    }
+</style>
+
 @section('content')
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 
@@ -13,6 +19,8 @@
         @endforeach
         
     </ul>
-    <button type="button" onclick="location.href='createPosts'">Create post</button>
+    <div class = "pad">
+        <button type="button" class ="btn btn-primary" onclick="location.href='createPosts'">Create post</button>
+    </div>
     {{$posts->links()}}
 @endsection
