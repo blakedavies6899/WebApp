@@ -29,3 +29,4 @@ Route::get('post/{id}',[PostController::class, 'show'])->name('postDetails');
 Route::get('delete/{id}',[PostController::class, 'deletePost'])->name('postDelete');
 
 Route::post('save-comment',[PostController::class,'save_comment']);
+Route::put('editComment',[PostController::class,'edit_comment']);
