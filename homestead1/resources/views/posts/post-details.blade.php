@@ -63,10 +63,10 @@
         </div>
         <div class = "card" style = "width: 700px; margin: auto; background-color: #3E50B4; color: white"> 
             @if($post->image != 'empty.jpg')
-                <img src="{{ URL::to('images') }}/{{$post->image}}" alt="Post Image" width="700" height="350">
+                <img src="{{ URL::to('images') }}/{{$post->image}}" alt="Post Image" width="700" height="350"><!--display image on post if there is an image-->
             @endif
             <h1 style = "text-align: center">{{$post->title}}</h1>
-            <h6 class="card-subtitle>User:" style = "text-align: center"> Posted by {{$post->user->name}}</h6><br>
+            <h6 class="card-subtitle" style = "text-align: center"> Posted by {{$post->user->name}}</h6><br>
             <p style = "padding:5px;"class = "card-text">{{$post->mainbody}}<p><br>
 
             @foreach($post->tags as $tags)
@@ -75,6 +75,7 @@
         
     
         @if($user->id == $post->user_id || $user->role == 'admin')
+        <!--allows all posts to be edited if the user is an admin-->
             <div class = "pad">
                 <button class= "btn btn-secondary" onclick="document.location='{{route('postUpdate',['id'=>$post->id])}}'">Edit Post</button>
             </div>
@@ -97,13 +98,16 @@
                 <hr/>
                 <div class="comments"> 
                     @if(count($post->comments)>0)
+                    <!--display "no comments if there are no comments-->
                         @foreach($post->comments as $comment)
+                        <!--display all comments and the users that post them-->
                             <blockquote class="blockquote">
                               <small class="mb-0">{{ $comment->mainbody}}</small>
                             </blockquote>
                             <small class="mb-0">{{ $comment->user->name}}</small>
 
                             @if($user->id == $comment->user_id || $user->role == 'admin')
+                            <!--if user is an admin allow them to edit all comments-->
                                 <button type="button" class="btn btn-secondary" onclick="openForm({{$comment}})">Edit Comment</button>
                             @endif
                             <div class="editPopup">
@@ -129,7 +133,7 @@
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
-// save comment
+// ajax fucntion to save comment
 $("#save-comment").on('click',function(){
     var _comment=$(".comment").val();
     var _post=$(this).data('post');
@@ -150,9 +154,7 @@ $("#save-comment").on('click',function(){
             vm.text('Saving...').addClass('disabled');
         },
         success:function(res){
-            var _html='<blockquote class="blockquote animate__animated animate__bounce">\
-            <small class="mb-0">'+_comment+'</small>\
-            </blockquote><hr/>';
+            var _html = _comment;
             if(res.bool==true){
                 $(".comments").prepend(_html);
                 $(".comment").val('');
@@ -161,12 +163,12 @@ $("#save-comment").on('click',function(){
                 $(".no-comments").hide();
             }
             vm.text('Save').removeClass('disabled');
-            location.reload();
+            location.reload();//refreshes the page so that the comment is shown straight away
         }   
     });
 });
 
-//edit comment
+//ajax function to edit comment
 $(".editComment").on('click',function(){
     var _comment=$("#pre_edit_content").val();
     var _commentId=$(".comment_id").val();

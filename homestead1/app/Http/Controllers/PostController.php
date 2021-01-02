@@ -31,6 +31,7 @@ class PostController extends Controller
 
     public function createPosts(Request $request)
     {
+        //valdiation for creating posts
         $request->validate([
             'title'=> 'required',
             'mainbody'=> 'required',
@@ -49,7 +50,7 @@ class PostController extends Controller
             $image_name = 'empty.jpg';
         }
 
-        $user = User::where('id', '=', Auth::guard()->id())->first();
+        $user = User::where('id', '=', Auth::guard()->id())->first();//get current user id
         $posts = new Post;
         $posts->title=$request->title;
         $posts->mainbody=$request->mainbody;
@@ -88,6 +89,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    //function for showing the details of a post
     {
         $user = User::where('id', '=', Auth::guard()->id())->first();
         $post = Post::findOrFail($id);
@@ -113,17 +115,19 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update($id)
+    //function for showing the edit posts page
     {
-    
         $post = Post::findOrFail($id);
         return view ('posts.edit-posts',['post'=>$post]);
         //
     }
 
     public function updatePost(Request $request)
+    //function for updating the post
     {
 
         $request->validate([
+            //validation for updating the post
             'title'=> 'required',
             'mainbody'=> 'required',
             'image'=> 'mimes:jpeg,jpg,png'
@@ -132,6 +136,7 @@ class PostController extends Controller
 
         if($request->image !=null)
         {
+            //more image validation
             $image = $request->file('image');
             $image_name = time().'.'.$image->extension();
             $request->image->move(public_path('images'),$image_name);
@@ -144,6 +149,7 @@ class PostController extends Controller
         $post=Post::find($request->id);
         $post->title=$request->title;
         $post->mainbody=$request->mainbody;
+        $post->image=$request->oldImage;
         $post->image = $image_name;
         $post->save();
         return redirect('posts');
@@ -151,12 +157,14 @@ class PostController extends Controller
 
     public function deletePost($id)
     {
+        //function for deleting post
         $post=Post::find($id);
         $post->delete();
         return redirect('posts');
     }
 
     function save_comment(Request $request){
+        //function for saving a comment
         $data=new Comment;
         $data->user_id = Auth::guard()->id();
         $data->post_id=$request->post;
@@ -168,6 +176,7 @@ class PostController extends Controller
     }
 
     function edit_comment(Request $request){
+        //fucntion for editing a comment
         $comment = Comment::where('id', $request->commentId)->first();
         $comment->mainbody=$request->comment;
         $comment->save();
