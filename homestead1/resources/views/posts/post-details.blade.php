@@ -16,6 +16,11 @@
         padding-top: 5px;
         padding-bottom: 5px
     }
+
+    .colors{
+    width: 700px; margin: auto;
+    color: white;
+}
     .editPopup {
       position: relative;
       text-align: center;
@@ -51,38 +56,43 @@
       opacity: 1;
     }
 </style>
-<div class = "pad">
-    <button class = "btn btn-primary" onclick="location.href='/posts'">Back To Posts</button>
-</div>
-<ul>
-    <li>Title: {{$post->title}}</li>
-    @if($post->image != 'empty.jpg')
-        <img src="{{ URL::to('images') }}/{{$post->image}}" alt="Post Image" width="700"><br><br>
-    @endif
-    
-    <li>Main Body: {{$post->mainbody}}</li>
-    <li>User: {{$post->user->name}}</li>
-    @if($user->id == $post->user_id || $user->role == 'admin')
+<div class = "container" style = "margin: auto;">
+    <div class = "colors">
         <div class = "pad">
-            <button class= "btn btn-primary" onclick="document.location='{{route('postUpdate',['id'=>$post->id])}}'">Edit Post</button>
+            <button class = "btn btn-primary" onclick="location.href='/posts'">Back To Posts</button>
         </div>
-    @endif
-</ul>
-<ul>
-    @foreach($post->tags as $tags)
-        <small class="mb-0">#{{ $tags->mainbody}}</small>
-    @endforeach
-    
-</ul>
+        <div class = "card" style = "width: 700px; margin: auto; background-color: #3E50B4; color: white"> 
+            @if($post->image != 'empty.jpg')
+                <img src="{{ URL::to('images') }}/{{$post->image}}" alt="Post Image" width="700" height="350">
+            @endif
+            <h1 style = "text-align: center">{{$post->title}}</h1>
+            <h6 class="card-subtitle>User:" style = "text-align: center"> Posted by {{$post->user->name}}</h6><br>
+            <p style = "padding:5px;"class = "card-text">{{$post->mainbody}}<p><br>
 
-    <div class="card mt-4">
+            @foreach($post->tags as $tags)
+                <small style = "padding:5px;" class="mb-0">#{{ $tags->mainbody}}</small>
+            @endforeach
+        
+    
+        @if($user->id == $post->user_id || $user->role == 'admin')
+            <div class = "pad">
+                <button class= "btn btn-secondary" onclick="document.location='{{route('postUpdate',['id'=>$post->id])}}'">Edit Post</button>
+            </div>
+        @endif
+    
+        </div>
+    </div>
+</div>
+
+
+    <div class = "card" style = "width: 700px; margin: auto; background-color: #3E50B4; color: white;">
             <h5 class="card-header">Comments <span class="comment-count float-right badge badge-info">{{ count($post->comments) }}</span></h5>
             <div class="card-body">
                 {{-- Add Comment --}}
                 <div class="add-comment mb-3">
                     @csrf
                     <textarea class="form-control comment" placeholder="Enter Comment"></textarea>
-                    <button data-post="{{ $post->id }}" class="btn btn-primary">Submit</button>
+                    <button id = "save-comment" data-post="{{ $post->id }}" class="btn btn-secondary">Submit</button>
                 </div>
                 <hr/>
                 <div class="comments"> 
@@ -94,11 +104,11 @@
                             <small class="mb-0">{{ $comment->user->name}}</small>
 
                             @if($user->id == $comment->user_id || $user->role == 'admin')
-                                <button type="button" class="btn btn-primary" onclick="openForm({{$comment}})">Edit Comment</button>
+                                <button type="button" class="btn btn-secondary" onclick="openForm({{$comment}})">Edit Comment</button>
                             @endif
                             <div class="editPopup">
                                         <div class="formPopup" id="popupForm">
-                                            <div class="card">
+                                            <div class="card" style = "color: black">
                                                 <h2>Edit Comment</h2><br>
                                                 <textarea class="form-control comment" id="pre_edit_content" placeholder="Enter Comment"></textarea><br>
                                                 <input type="hidden" id="comment_id" class="form-control comment_id">
@@ -120,7 +130,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script type="text/javascript">
 // save comment
-$(".save-comment").on('click',function(){
+$("#save-comment").on('click',function(){
     var _comment=$(".comment").val();
     var _post=$(this).data('post');
     var _user='<?php echo $user->name;?>';
