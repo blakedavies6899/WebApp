@@ -20,6 +20,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Comment');
     }
 
+    public function setAdmin() {
+        $user=$this;
+        $user->role = 'admin';
+        $user->save();
+    }
+
     /**
      * The attributes that are mass assignable.
      *

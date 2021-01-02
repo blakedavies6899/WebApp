@@ -13,7 +13,8 @@
     }
 
     .pad {
-      padding: 10px
+        padding-top: 5px;
+        padding-bottom: 5px
     }
     .editPopup {
       position: relative;
@@ -55,9 +56,13 @@
 </div>
 <ul>
     <li>Title: {{$post->title}}</li>
+    @if($post->image != 'empty.jpg')
+        <img src="{{ URL::to('images') }}/{{$post->image}}" alt="Post Image" width="700"><br><br>
+    @endif
+    
     <li>Main Body: {{$post->mainbody}}</li>
     <li>User: {{$post->user->name}}</li>
-    @if($user->id == $post->user_id)
+    @if($user->id == $post->user_id || $user->role == 'admin')
         <div class = "pad">
             <button class= "btn btn-primary" onclick="document.location='{{route('postUpdate',['id'=>$post->id])}}'">Edit Post</button>
         </div>
@@ -67,9 +72,7 @@
     @foreach($post->tags as $tags)
         <small class="mb-0">#{{ $tags->mainbody}}</small>
     @endforeach
-    @if($post->image != 'empty.jpg')
-                <img src="{{ URL::to('images') }}/{{$post->image}}" alt="Post Image" width="700"><br><br>
-    @endif
+    
 </ul>
 
     <div class="card mt-4">
@@ -90,7 +93,7 @@
                             </blockquote>
                             <small class="mb-0">{{ $comment->user->name}}</small>
 
-                            @if($user->id == $comment->user_id)
+                            @if($user->id == $comment->user_id || $user->role == 'admin')
                                 <button type="button" class="btn btn-primary" onclick="openForm({{$comment}})">Edit Comment</button>
                             @endif
                             <div class="editPopup">

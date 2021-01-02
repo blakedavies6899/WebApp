@@ -4,7 +4,8 @@
 
 <style>
 .pad {
-      padding: 10px
+    padding-top: 5px;
+    padding-bottom: 5px
     }
 </style>
 
