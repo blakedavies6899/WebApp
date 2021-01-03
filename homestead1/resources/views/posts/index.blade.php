@@ -43,7 +43,10 @@ text-align: center;
         </div>
         </div>
     </div>
-</div>
+
+
 {{$posts->links()}}<!--allows navigation between pages-->
 @endsection
+</div>
+
 

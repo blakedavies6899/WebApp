@@ -32,10 +32,11 @@
         @enderror
         <div class = "pad">
             <button type="submit" class = "btn btn-primary">Save Post</button>
-            <button onclick="document.location='{{route('postDelete',['id'=>$post->id])}}'" class = "btn btn-danger">Delete Post</button>
         </div>
         </div>
     </div>
 </form>
-
+<div class = "colors">  
+        <button onclick="document.location='{{route('postDelete',['id'=>$post->id])}}'" class = "btn btn-danger">Delete Post</button>
+</div>
 @endsection

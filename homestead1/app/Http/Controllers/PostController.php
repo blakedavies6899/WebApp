@@ -136,7 +136,6 @@ class PostController extends Controller
 
         if($request->image !=null)
         {
-            //more image validation
             $image = $request->file('image');
             $image_name = time().'.'.$image->extension();
             $request->image->move(public_path('images'),$image_name);
@@ -149,7 +148,6 @@ class PostController extends Controller
         $post=Post::find($request->id);
         $post->title=$request->title;
         $post->mainbody=$request->mainbody;
-        $post->image=$request->oldImage;
         $post->image = $image_name;
         $post->save();
         return redirect('posts');
